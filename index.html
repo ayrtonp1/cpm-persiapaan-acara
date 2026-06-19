@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CPM — Persiapan Acara Formal</title>
+<style>
+  /* ===== DESIGN TOKENS ===== */
+  :root {
+    --ink:        #1A1A2E;
+    --deep:       #16213E;
+    --gold:       #C9A84C;
+    --gold-lt:    #F0D080;
+    --gold-dim:   #7A6428;
+    --cream:      #F8F4EC;
+    --white:      #FFFFFF;
+    --danger:     #E05252;
+    --success:    #3DAA72;
+    --muted:      #6B7280;
+    --border:     #D9CEB2;
+    --critical-bg:#FFF3CD;
+    --critical-border:#C9A84C;
+    --step-bg:    #EEF6FF;
+    --step-border:#3B82F6;
+    --radius:     8px;
+    --shadow:     0 2px 12px rgba(26,26,46,0.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: linear-gradient(135deg, var(--deep) 0%, var(--ink) 100%);
+    color: var(--white);
+    padding: 0;
+    border-bottom: 3px solid var(--gold);
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 32px 24px;
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+  }
+  .header-icon {
+    font-size: 3rem;
+    line-height: 1;
+    filter: drop-shadow(0 2px 6px rgba(201,168,76,0.4));
+  }
+  .header-text h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--gold-lt);
+  }
+  .header-text p {
+    font-size: 0.875rem;
+    color: #A0AABF;
+    margin-top: 2px;
+  }
+  .header-meta {
+    margin-left: auto;
+    text-align: right;
+    font-size: 0.78rem;
+    color: #7A8499;
+  }
+  .header-meta span { display: block; }
+  .header-meta strong { color: var(--gold); font-size: 0.85rem; }
+
+  /* ===== NAV TABS ===== */
+  .tabs {
+    background: var(--deep);
+    border-bottom: 1px solid #2A3050;
+  }
+  .tabs-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    gap: 0;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: #7A8499;
+    padding: 14px 22px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--gold-lt); }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ===== MAIN ===== */
+  main { max-width: 1200px; margin: 0 auto; padding: 32px; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .card-header {
+    background: linear-gradient(90deg, var(--ink) 0%, #252545 100%);
+    color: var(--white);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-header h2 { font-size: 1rem; font-weight: 600; color: var(--gold-lt); }
+  .card-header .badge {
+    margin-left: auto;
+    background: var(--gold-dim);
+    color: var(--gold-lt);
+    font-size: 0.72rem;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .card-body { padding: 20px; }
+
+  /* ===== FORM ELEMENTS ===== */
+  .form-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; align-items: flex-end; }
+  .form-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 120px; }
+  label { font-size: 0.78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  input, select, textarea {
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 11px;
+    font-size: 0.875rem;
+    color: var(--ink);
+    background: var(--cream);
+    transition: border-color 0.15s;
+    font-family: inherit;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: var(--white);
+  }
+
+  /* ===== BUTTONS ===== */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 18px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+  .btn-gold { background: var(--gold); color: var(--ink); }
+  .btn-dark { background: var(--ink); color: var(--white); }
+  .btn-danger { background: var(--danger); color: var(--white); }
+  .btn-success { background: var(--success); color: var(--white); }
+  .btn-outline { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); }
+  .btn-sm { padding: 5px 11px; font-size: 0.78rem; }
+
+  /* ===== TABLE ===== */
+  .table-wrap { overflow-x: auto; border-radius: var(--radius); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  thead tr { background: linear-gradient(90deg, var(--ink), #252545); }
+  thead th { color: var(--gold-lt); font-weight: 600; padding: 11px 13px; text-align: center; white-space: nowrap; font-size: 0.8rem; }
+  tbody tr { border-bottom: 1px solid #EDE7D3; transition: background 0.1s; }
+  tbody tr:hover { background: #FBF8F0; }
+  tbody td { padding: 9px 13px; text-align: center; vertical-align: middle; }
+  tbody td.left { text-align: left; }
+
+  .critical-row { background: #FFFBEB !important; }
+  .critical-row td { font-weight: 600; }
+  .critical-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+  .slack-zero { color: var(--danger); font-weight: 700; }
+  .slack-pos { color: var(--success); }
+
+  /* ===== INFO BOX ===== */
+  .info-box {
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .info-box.gold { background: #FFF8E7; border: 1px solid var(--gold); }
+  .info-box.blue { background: var(--step-bg); border: 1px solid var(--step-border); }
+  .info-box.red { background: #FFF0F0; border: 1px solid var(--danger); color: var(--danger); }
+  .info-box.green { background: #F0FFF6; border: 1px solid var(--success); color: #1A7A4A; }
+  .info-icon { font-size: 1.1rem; }
+
+  /* ===== STEP CARDS ===== */
+  .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 16px; }
+  .step-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    background: var(--white);
+    position: relative;
+  }
+  .step-num {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+  .step-card h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+  .step-card p { font-size: 0.8rem; color: var(--muted); }
+
+  /* ===== SUMMARY STATS ===== */
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px,1fr)); gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .stat-card .stat-val { font-size: 2rem; font-weight: 800; color: var(--gold); line-height: 1; }
+  .stat-card .stat-lbl { font-size: 0.75rem; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  /* ===== SVG NETWORK ===== */
+  #network-wrap {
+    width: 100%;
+    overflow-x: auto;
+    background: #0D1226;
+    border-radius: var(--radius);
+    padding: 20px;
+    min-height: 400px;
+  }
+  #network-svg { display: block; }
+
+  /* ===== ACTIVITY INPUT TABLE ===== */
+  #activity-table-body td input, #activity-table-body td select {
+    width: 100%;
+    background: var(--white);
+    font-size: 0.82rem;
+    padding: 6px 8px;
+  }
+  #activity-table-body td { padding: 5px 6px; }
+
+  /* ===== FORWARD/BACKWARD PASS TABLE ===== */
+  .pass-section { margin-bottom: 24px; }
+  .pass-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pass-title.fwd { background: #EEF6FF; border: 1px solid var(--step-border); color: #1D4ED8; }
+  .pass-title.bwd { background: #FFF3E8; border: 1px solid #F59E0B; color: #92400E; }
+
+  /* ===== LEGEND ===== */
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.78rem; margin-top: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 50%; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 700px) {
+    main { padding: 16px; }
+    .header-inner { flex-wrap: wrap; padding: 18px 16px; }
+    .tabs-inner { padding: 0 8px; overflow-x: auto; }
+    .header-meta { margin-left: 0; text-align: left; }
+  }
+
+  /* ===== PRINT ===== */
+  @media print {
+    header, .tabs, .btn, #input-section { display: none !important; }
+    main { padding: 0; max-width: 100%; }
+    .section { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-inner">
+    <div class="header-icon">🎪</div>
+    <div class="header-text">
+      <h1>CPM — Persiapan Acara Formal Berskala Besar</h1>
+      <p>Critical Path Method · Penjadwalan Kepanitiaan Acara dari Penyewaan Gedung hingga Hari-H</p>
+    </div>
+    <div class="header-meta">
+      <span>Mata Kuliah: Riset Operasi</span>
+      <span>Kelompok: 6</span>
+      <strong>Topik 2 — Teori Jaringan</strong>
+    </div>
+  </div>
+</header>
+
+<!-- ===== TABS ===== -->
+<div class="tabs">
+  <div class="tabs-inner">
+    <button class="tab-btn active" onclick="showTab('input')">① Input Kegiatan</button>
+    <button class="tab-btn" onclick="showTab('steps')">② Langkah Perhitungan</button>
+    <button class="tab-btn" onclick="showTab('result')">③ Tabel CPM</button>
+    <button class="tab-btn" onclick="showTab('network')">④ Diagram Jaringan</button>
+    <button class="tab-btn" onclick="showTab('summary')">⑤ Kesimpulan</button>
+  </div>
+</div>
+
+<!-- ===== MAIN ===== -->
+<main>
+
+<!-- ============================
+     TAB 1: INPUT
+     ============================ -->
+<div id="tab-input" class="section active">
+
+  <div class="info-box gold">
+    <span class="info-icon">ℹ️</span>
+    <div>
+      <strong>Studi Kasus:</strong> Penjadwalan kepanitiaan acara formal berskala besar, dari penyewaan gedung hingga pelaksanaan hari-H. Data default sudah diisi (10 kegiatan). Anda dapat mengedit, menambah, atau menghapus kegiatan (min. 8, maks. 20).
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span>📋</span>
+      <h2>Tabel Input Kegiatan</h2>
+      <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+        <span id="activity-count-badge" class="badge">10 Kegiatan</span>
+        <button class="btn btn-outline btn-sm" onclick="loadDefault()">↺ Default</button>
+        <button class="btn btn-gold btn-sm" onclick="addActivity()">+ Tambah</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:40px">#</th>
+              <th>ID</th>
+              <th>Nama Kegiatan</th>
+              <th>Durasi (Hari)</th>
+              <th>Pendahulu (Predecessor)</th>
+              <th style="width:60px">Hapus</th>
+            </tr>
+          </thead>
+          <tbody id="activity-table-body"></tbody>
+        </table>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-dark" onclick="calculate()">⚙️ Hitung CPM</button>
+        <button class="btn btn-danger btn-sm" onclick="clearAll()">🗑 Hapus Semua</button>
+      </div>
+      <div id="input-error" class="info-box red" style="display:none;margin-top:12px;">
+        <span class="info-icon">⚠️</span><span id="input-error-msg"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span>📖</span><h2>Panduan Pengisian</h2></div>
+    <div class="card-body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="step-num">LANGKAH 1</div>
+          <h3>Isi ID & Nama Kegiatan</h3>
+          <p>ID menggunakan huruf kapital (A, B, C, ...). Nama kegiatan mendeskripsikan aktivitas kepanitiaan.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">LANGKAH 2</div>
+          <h3>Tentukan Durasi</h3>
+          <p>Isi estimasi durasi dalam satuan hari kerja untuk setiap kegiatan.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">LANGKAH 3</div>
+          <h3>Isi Predecessor</h3>
+          <p>Tuliskan ID kegiatan yang harus selesai sebelum kegiatan ini bisa dimulai. Kosongkan jika tidak ada (kegiatan awal). Pisahkan dengan koma bila lebih dari satu (contoh: A,B).</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">LANGKAH 4</div>
+          <h3>Klik Hitung CPM</h3>
+          <p>Sistem akan menghitung Forward Pass, Backward Pass, Slack, dan mengidentifikasi Jalur Kritis secara otomatis.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================
+     TAB 2: LANGKAH
+     ============================ -->
+<div id="tab-steps" class="section">
+  <div id="steps-content">
+    <div class="info-box blue"><span class="info-icon">💡</span><span>Klik <strong>Hitung CPM</strong> di tab Input terlebih dahulu untuk melihat langkah-langkah perhitungan.</span></div>
+  </div>
+</div>
+
+<!-- ============================
+     TAB 3: TABEL CPM
+     ============================ -->
+<div id="tab-result" class="section">
+  <div id="result-content">
+    <div class="info-box blue"><span class="info-icon">💡</span><span>Klik <strong>Hitung CPM</strong> di tab Input terlebih dahulu.</span></div>
+  </div>
+</div>
+
+<!-- ============================
+     TAB 4: NETWORK DIAGRAM
+     ============================ -->
+<div id="tab-network" class="section">
+  <div id="network-content">
+    <div class="info-box blue"><span class="info-icon">💡</span><span>Klik <strong>Hitung CPM</strong> di tab Input terlebih dahulu untuk melihat diagram jaringan.</span></div>
+  </div>
+</div>
+
+<!-- ============================
+     TAB 5: KESIMPULAN
+     ============================ -->
+<div id="tab-summary" class="section">
+  <div id="summary-content">
+    <div class="info-box blue"><span class="info-icon">💡</span><span>Klik <strong>Hitung CPM</strong> di tab Input terlebih dahulu.</span></div>
+  </div>
+</div>
+
+</main>
+
+<script>
+/**
+ * =====================================================================
+ * CPM — PERSIAPAN ACARA FORMAL BERSKALA BESAR
+ * Mata Kuliah : Riset Operasi (SIS3532)
+ * Topik       : Teori Jaringan / Critical Path Method (CPM)
+ * Studi Kasus : Penjadwalan kepanitiaan acara formal, dari penyewaan
+ *               gedung hingga pelaksanaan hari-H.
+ *
+ * Struktur Modul JavaScript:
+ *  1. DATA & STATE          — variabel global dan data default
+ *  2. TAB NAVIGATION        — perpindahan antar tab UI
+ *  3. ACTIVITY TABLE        — render, tambah, hapus kegiatan
+ *  4. VALIDATION            — validasi input sebelum kalkulasi
+ *  5. TOPOLOGICAL SORT      — Algoritma Kahn untuk urutan kegiatan
+ *  6. CPM COMPUTATION       — Forward Pass, Backward Pass, Slack
+ *  7. FIND ALL CRITICAL PATHS — DFS rekursif untuk multi-jalur kritis
+ *  8. RENDER STEPS          — Tab ② langkah perhitungan
+ *  9. RENDER RESULT         — Tab ③ tabel rekap CPM
+ * 10. RENDER NETWORK        — Tab ④ diagram jaringan SVG otomatis
+ * 11. RENDER SUMMARY        — Tab ⑤ kesimpulan & rekomendasi
+ * 12. INIT                  — inisialisasi aplikasi
+ * =====================================================================
+ */
+
+/* =====================================================================
+ * 1. DATA & STATE
+ *    - activities : array objek kegiatan yang sedang diedit pengguna
+ *    - cpmResult  : hasil kalkulasi CPM terakhir (null jika belum hitung)
+ *    - DEFAULT_ACTIVITIES : data contoh 10 kegiatan persiapan acara formal
+ * ===================================================================== */
+
+/** @type {Array<{id:string, name:string, dur:number, pred:string}>} */
+let activities = [];
+
+/**
+ * Menyimpan hasil perhitungan CPM terakhir.
+ * Diisi oleh calculate(), dibaca oleh semua fungsi render.
+ * @type {{idMap:Object, sorted:string[], projectDur:number, acts:Array}|null}
+ */
+let cpmResult = null;
+
+/**
+ * Data default studi kasus: Persiapan Acara Formal Berskala Besar.
+ * Mencakup 10 kegiatan dari survei gedung hingga pelaksanaan hari-H.
+ * Predecessor ditulis sebagai string ID dipisah koma (contoh: 'B,D').
+ */
+const DEFAULT_ACTIVITIES = [
+  { id:'A', name:'Survei & Pemilihan Gedung',           dur:5, pred:''      },
+  { id:'B', name:'Penyewaan Gedung & Kontrak Venue',    dur:3, pred:'A'     },
+  { id:'C', name:'Pembentukan Panitia & Rapat Kick-off',dur:4, pred:'A'     },
+  { id:'D', name:'Desain Materi Promosi & Undangan',    dur:6, pred:'C'     },
+  { id:'E', name:'Distribusi Undangan & RSVP',          dur:5, pred:'B,D'   },
+  { id:'F', name:'Pengadaan Dekorasi & Perlengkapan',   dur:7, pred:'B'     },
+  { id:'G', name:'Persiapan Katering & Menu',           dur:4, pred:'B'     },
+  { id:'H', name:'Gladi Bersih & Koordinasi Teknis',    dur:3, pred:'E,F,G' },
+  { id:'I', name:'Pemasangan Dekorasi & Sound System',  dur:2, pred:'F,H'   },
+  { id:'J', name:'Pelaksanaan Hari-H Acara',            dur:1, pred:'I'     },
+];
+
+/* =====================================================================
+ * 2. TAB NAVIGATION
+ * ===================================================================== */
+
+/**
+ * Menampilkan tab yang dipilih dan menyembunyikan tab lainnya.
+ * Setiap tab memiliki section konten dan tombol navigasi masing-masing.
+ * @param {string} name - Nama tab: 'input' | 'steps' | 'result' | 'network' | 'summary'
+ */
+function showTab(name) {
+  // Nonaktifkan semua section konten
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  // Nonaktifkan semua tombol tab
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  // Aktifkan section dan tombol yang sesuai
+  document.getElementById('tab-' + name).classList.add('active');
+  const idx = ['input','steps','result','network','summary'].indexOf(name);
+  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+}
+
+/* =====================================================================
+ * 3. ACTIVITY TABLE RENDERING & MANAGEMENT
+ * ===================================================================== */
+
+/**
+ * Me-render ulang seluruh tabel input kegiatan dari array `activities`.
+ * Setiap baris memiliki input untuk ID, nama, durasi, dan predecessor,
+ * serta tombol hapus. Perubahan input langsung memperbarui array activities
+ * melalui event handler oninput.
+ */
+function renderTable() {
+  const tbody = document.getElementById('activity-table-body');
+  tbody.innerHTML = '';
+
+  activities.forEach((a, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:var(--muted);font-weight:600;">${i + 1}</td>
+      <td><input type="text" value="${a.id}" maxlength="4"
+          oninput="activities[${i}].id=this.value.toUpperCase().trim()"
+          style="width:55px;text-align:center;font-weight:700;"/></td>
+      <td><input type="text" value="${a.name}" style="min-width:220px;"
+          oninput="activities[${i}].name=this.value"/></td>
+      <td><input type="number" value="${a.dur}" min="1" max="999"
+          oninput="activities[${i}].dur=parseInt(this.value)||1"
+          style="width:70px;text-align:center;"/></td>
+      <td><input type="text" value="${a.pred}" placeholder="(kosong jika awal)"
+          oninput="activities[${i}].pred=this.value.toUpperCase().replace(/\\s/g,'')"
+          style="min-width:150px;"/></td>
+      <td><button class="btn btn-danger btn-sm" onclick="removeActivity(${i})">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Perbarui badge jumlah kegiatan di header tabel
+  document.getElementById('activity-count-badge').textContent = activities.length + ' Kegiatan';
+}
+
+/**
+ * Menambahkan satu baris kegiatan baru ke tabel.
+ * ID otomatis diisi berurutan (A, B, C, ...).
+ * Dibatasi maksimal 20 kegiatan sesuai spesifikasi tugas.
+ */
+function addActivity() {
+  if (activities.length >= 20) {
+    showError('Maksimal 20 kegiatan.');
+    return;
+  }
+  // Urutan ID: A-T (20 huruf pertama alfabet)
+  const ids = 'ABCDEFGHIJKLMNOPQRST';
+  const newId = ids[activities.length] || 'X';
+  activities.push({ id: newId, name: '', dur: 1, pred: '' });
+  renderTable();
+}
+
+/**
+ * Menghapus kegiatan pada indeks tertentu dari tabel.
+ * Dibatasi minimal 8 kegiatan sesuai spesifikasi tugas.
+ * @param {number} i - Indeks kegiatan dalam array activities (0-based)
+ */
+function removeActivity(i) {
+  if (activities.length <= 8) {
+    showError('Minimal 8 kegiatan.');
+    return;
+  }
+  activities.splice(i, 1);
+  renderTable();
+}
+
+/**
+ * Menghapus seluruh kegiatan setelah konfirmasi pengguna.
+ * Juga mereset hasil CPM agar tab lain tidak menampilkan data lama
+ * yang tidak relevan dengan kondisi tabel yang sudah kosong.
+ */
+function clearAll() {
+  if (!confirm('Hapus semua kegiatan? Tabel akan dikosongkan dan Anda perlu mengisi ulang minimal 8 kegiatan sebelum menghitung.')) return;
+
+  activities = [];
+  renderTable();
+  hideError();
+
+  // Reset state CPM dan kembalikan semua tab ke kondisi awal
+  cpmResult = null;
+  ['steps-content', 'result-content', 'network-content', 'summary-content'].forEach(id => {
+    document.getElementById(id).innerHTML =
+      '<div class="info-box blue"><span class="info-icon">💡</span><span>Klik <strong>Hitung CPM</strong> di tab Input terlebih dahulu.</span></div>';
+  });
+}
+
+/**
+ * Memuat ulang data default (10 kegiatan persiapan acara formal).
+ * Membuat salinan baru dari DEFAULT_ACTIVITIES agar tidak mutasi data asli.
+ */
+function loadDefault() {
+  activities = DEFAULT_ACTIVITIES.map(a => ({ ...a }));
+  renderTable();
+  hideError();
+}
+
+/**
+ * Menampilkan pesan error di bawah tabel input.
+ * @param {string} msg - Teks pesan error yang akan ditampilkan
+ */
+function showError(msg) {
+  const e = document.getElementById('input-error');
+  e.style.display = 'flex';
+  document.getElementById('input-error-msg').textContent = msg;
+}
+
+/** Menyembunyikan kotak pesan error. */
+function hideError() {
+  document.getElementById('input-error').style.display = 'none';
+}
+
+/* =====================================================================
+ * 4. VALIDATION
+ *    Memvalidasi seluruh input sebelum perhitungan CPM dimulai.
+ *    Mengembalikan string pesan error, atau null jika semua valid.
+ * ===================================================================== */
+
+/**
+ * Memvalidasi data activities secara menyeluruh:
+ *  - Jumlah kegiatan antara 8 dan 20
+ *  - Setiap kegiatan memiliki ID yang tidak kosong dan unik
+ *  - Setiap kegiatan memiliki nama dan durasi valid (>= 1)
+ *  - Setiap predecessor merujuk ke ID yang ada dalam daftar
+ *  - Tidak ada siklus (circular dependency) antar predecessor
+ *
+ * @returns {string|null} Pesan error jika tidak valid, null jika valid
+ */
+function validate() {
+  // Cek batasan jumlah kegiatan
+  if (activities.length < 8 || activities.length > 20)
+    return 'Jumlah kegiatan harus antara 8 dan 20.';
+
+  const ids = activities.map(a => a.id.trim());
+
+  // Cek ID tidak kosong
+  if (ids.some(id => !id))
+    return 'Semua kegiatan harus memiliki ID.';
+
+  // Cek ID unik (tidak duplikat)
+  const unique = new Set(ids);
+  if (unique.size !== ids.length)
+    return 'ID kegiatan harus unik (tidak boleh duplikat).';
+
+  // Cek nama, durasi, dan referensi predecessor setiap kegiatan
+  for (const a of activities) {
+    if (!a.name.trim())
+      return `Kegiatan ${a.id} belum memiliki nama.`;
+    if (!a.dur || a.dur < 1)
+      return `Durasi kegiatan ${a.id} tidak valid.`;
+    if (a.pred) {
+      const preds = a.pred.split(',').map(p => p.trim()).filter(p => p);
+      for (const p of preds) {
+        if (!ids.includes(p))
+          return `Predecessor "${p}" pada kegiatan ${a.id} tidak ditemukan.`;
+      }
+    }
+  }
+
+  // Cek siklus menggunakan topological sort
+  try { topoSort(activities); } catch (e) { return e.message; }
+
+  return null; // semua valid
+}
+
+/* =====================================================================
+ * 5. TOPOLOGICAL SORT — Algoritma Kahn (BFS berbasis in-degree)
+ *    Mengurutkan kegiatan sehingga setiap kegiatan selalu muncul
+ *    setelah semua predecessor-nya. Sekaligus mendeteksi siklus.
+ * ===================================================================== */
+
+/**
+ * Mengurutkan array kegiatan secara topologis menggunakan Algoritma Kahn.
+ *
+ * Cara kerja:
+ *  1. Hitung in-degree (jumlah predecessor langsung) setiap node
+ *  2. Masukkan semua node dengan in-degree=0 ke antrean (queue)
+ *  3. Proses node dari antrean: kurangi in-degree setiap successor-nya;
+ *     jika in-degree successor menjadi 0, masukkan ke antrean
+ *  4. Jika hasil urutan kurang dari jumlah node → ada siklus
+ *
+ * @param {Array<{id:string, pred:string}>} acts - Array kegiatan yang akan diurutkan
+ * @returns {string[]} Array ID kegiatan dalam urutan topologis
+ * @throws {Error} Jika terdeteksi siklus (circular dependency)
+ */
+function topoSort(acts) {
+  // Buat peta ID → objek kegiatan untuk akses O(1)
+  const idMap = {};
+  acts.forEach(a => idMap[a.id] = a);
+
+  // Hitung in-degree setiap kegiatan
+  const inDeg = {};
+  acts.forEach(a => inDeg[a.id] = 0);
+  acts.forEach(a => {
+    if (a.pred)
+      a.pred.split(',').map(p => p.trim()).filter(p => p)
+        .forEach(p => inDeg[a.id]++);
+  });
+
+  // Inisialisasi antrean dengan node tanpa predecessor (in-degree = 0)
+  const queue = acts.filter(a => inDeg[a.id] === 0).map(a => a.id);
+  const sorted = [];
+
+  // Proses BFS
+  while (queue.length) {
+    const cur = queue.shift();
+    sorted.push(cur);
+
+    // Kurangi in-degree setiap successor dari node saat ini
+    acts.forEach(a => {
+      const preds = a.pred ? a.pred.split(',').map(p => p.trim()).filter(p => p) : [];
+      if (preds.includes(cur)) {
+        inDeg[a.id]--;
+        if (inDeg[a.id] === 0) queue.push(a.id); // siap diproses
+      }
+    });
+  }
+
+  // Jika tidak semua node masuk ke sorted → ada siklus
+  if (sorted.length !== acts.length)
+    throw new Error('Terdeteksi siklus (circular dependency) pada predecessor!');
+
+  return sorted;
+}
+
+/* =====================================================================
+ * 6. CPM COMPUTATION
+ *    Menghitung Forward Pass, Backward Pass, Slack, dan menandai
+ *    kegiatan kritis. Hasilnya disimpan di variabel global cpmResult.
+ * ===================================================================== */
+
+/**
+ * Fungsi utama kalkulasi CPM. Dipanggil saat tombol "Hitung CPM" diklik.
+ *
+ * Alur eksekusi:
+ *  1. Sinkronisasi nilai input DOM ke array activities
+ *  2. Validasi input; tampilkan error jika gagal
+ *  3. Topological sort untuk menentukan urutan pemrosesan
+ *  4. Forward Pass → ES dan EF setiap kegiatan
+ *  5. Backward Pass → LF dan LS setiap kegiatan
+ *  6. Hitung Slack = LS − ES; tandai kegiatan kritis (Slack = 0)
+ *  7. Simpan hasil ke cpmResult dan panggil semua fungsi render
+ */
+function calculate() {
+  // --- LANGKAH 0: Sinkronisasi DOM → array ---
+  // Browser kadang tidak memicu oninput untuk semua input,
+  // sehingga kita baca langsung dari DOM sebelum memvalidasi.
+  const rows = document.querySelectorAll('#activity-table-body tr');
+  rows.forEach((tr, i) => {
+    const inputs = tr.querySelectorAll('input');
+    activities[i].id   = inputs[0].value.toUpperCase().trim();
+    activities[i].name = inputs[1].value;
+    activities[i].dur  = parseInt(inputs[2].value) || 1;
+    activities[i].pred = inputs[3].value.toUpperCase().replace(/\s/g, '');
+  });
+
+  hideError();
+
+  // --- LANGKAH 1: Validasi ---
+  const err = validate();
+  if (err) { showError(err); return; }
+
+  const acts = activities;
+
+  // Buat peta id → node dengan semua properti CPM diinisialisasi nol
+  const idMap = {};
+  acts.forEach(a => idMap[a.id] = { ...a, ES:0, EF:0, LS:0, LF:0, slack:0, critical:false });
+
+  // Urutkan secara topologis untuk menjamin setiap predecessor
+  // sudah diproses sebelum kegiatan yang bergantung padanya
+  const sorted = topoSort(acts);
+
+  // --- LANGKAH 2: FORWARD PASS (Hitungan Maju) ---
+  // Tujuan: menghitung ES (Earliest Start) dan EF (Earliest Finish)
+  // Rumus:
+  //   ES = 0                           (jika tidak ada predecessor)
+  //   ES = MAX(EF semua predecessor)   (jika ada predecessor)
+  //   EF = ES + Durasi
+  sorted.forEach(id => {
+    const node = idMap[id];
+    const preds = node.pred ? node.pred.split(',').map(p => p.trim()).filter(p => p) : [];
+
+    if (preds.length === 0) {
+      node.ES = 0; // kegiatan awal dimulai di waktu 0
+    } else {
+      // Ambil waktu selesai paling akhir dari semua predecessor
+      node.ES = Math.max(...preds.map(p => idMap[p].EF));
+    }
+    node.EF = node.ES + node.dur;
+  });
+
+  // Durasi total proyek = EF terbesar dari semua kegiatan
+  const projectDur = Math.max(...sorted.map(id => idMap[id].EF));
+
+  // --- LANGKAH 3: BACKWARD PASS (Hitungan Mundur) ---
+  // Tujuan: menghitung LF (Latest Finish) dan LS (Latest Start)
+  // Rumus:
+  //   LF = projectDur                  (untuk kegiatan terminal)
+  //   LF = MIN(LS semua successor)     (untuk kegiatan non-terminal)
+  //   LS = LF − Durasi
+  //
+  // FIX (Bug #1): Terminal node harus di-set SEBELUM loop reverse dimulai,
+  // agar ketika loop mengambil LS successor, nilainya sudah valid (bukan Infinity).
+
+  // Identifikasi terminal nodes: kegiatan yang tidak menjadi predecessor siapapun
+  const hasSuc = new Set();
+  acts.forEach(a => {
+    if (a.pred)
+      a.pred.split(',').map(p => p.trim()).filter(p => p).forEach(p => hasSuc.add(p));
+  });
+  const terminals = sorted.filter(id => !hasSuc.has(id));
+
+  // Pre-inisialisasi semua node dengan nilai sentinel Infinity
+  // agar kita bisa mendeteksi node yang belum dihitung (safety check)
+  sorted.forEach(id => { idMap[id].LF = Infinity; idMap[id].LS = Infinity; });
+
+  // Set terminal nodes LENGKAP (LF, LS, slack) sebelum loop dimulai
+  terminals.forEach(id => {
+    idMap[id].LF    = projectDur;
+    idMap[id].LS    = projectDur - idMap[id].dur;
+    idMap[id].slack = idMap[id].LS - idMap[id].ES;
+  });
+
+  // Loop reverse topological — proses hanya node non-terminal
+  [...sorted].reverse().forEach(id => {
+    if (terminals.includes(id)) return; // sudah selesai, lewati
+
+    const node = idMap[id];
+
+    // Cari semua successor langsung dari node ini
+    const succs = acts.filter(a => {
+      const ps = a.pred ? a.pred.split(',').map(p => p.trim()).filter(p => p) : [];
+      return ps.includes(id);
+    });
+
+    // Ambil hanya LS yang sudah valid (isFinite) sebagai safety net
+    // untuk edge case jaringan tidak linear
+    const validLS = succs.map(s => idMap[s.id].LS).filter(v => isFinite(v));
+    node.LF    = validLS.length > 0 ? Math.min(...validLS) : projectDur;
+    node.LS    = node.LF - node.dur;
+    node.slack = node.LS - node.ES; // ekuivalen dengan LF − EF
+  });
+
+  // --- LANGKAH 4: Tandai kegiatan kritis ---
+  // Kegiatan kritis: Slack = 0 (tidak ada kelonggaran waktu sama sekali)
+  sorted.forEach(id => {
+    idMap[id].critical = idMap[id].slack === 0;
+  });
+
+  // Simpan hasil ke state global untuk dipakai semua fungsi render
+  cpmResult = { idMap, sorted, projectDur, acts };
+
+  // Render semua tab output lalu pindah ke Tab ② (Langkah Perhitungan)
+  renderSteps();
+  renderResult();
+  renderNetwork();
+  renderSummary();
+  showTab('steps');
+}
+
+/* =====================================================================
+ * 7. FIND ALL CRITICAL PATHS
+ *    Mengidentifikasi SEMUA jalur kritis yang mungkin ada dalam jaringan.
+ *    Penting ketika ada lebih dari satu jalur dengan durasi sama (tie).
+ * ===================================================================== */
+
+/**
+ * Menemukan semua jalur kritis menggunakan DFS rekursif mundur.
+ *
+ * Algoritma:
+ *  1. Bangun adjacency list predecessor untuk setiap node
+ *  2. Identifikasi "terminal kritis" = node kritis tanpa successor kritis
+ *  3. Dari setiap terminal kritis, lakukan DFS mundur hanya melalui
+ *     predecessor yang juga kritis
+ *  4. Setiap DFS yang mencapai node tanpa predecessor kritis = satu jalur lengkap
+ *  5. Balik urutan dan de-duplikasi hasilnya
+ *
+ * @returns {Array<string[]>} Array of jalur, tiap jalur adalah array ID
+ *          berurutan dari awal hingga akhir proyek.
+ *          Contoh: [['A','C','D','J'], ['A','B','D','J']]
+ */
+function findAllCriticalPaths() {
+  const { idMap, sorted, acts } = cpmResult;
+
+  // Buat adjacency list: predMap[id] = [list predecessor langsung]
+  const predMap = {};
+  sorted.forEach(id => { predMap[id] = []; });
+  acts.forEach(a => {
+    const preds = a.pred ? a.pred.split(',').map(p => p.trim()).filter(p => p) : [];
+    preds.forEach(p => { predMap[a.id].push(p); });
+  });
+
+  // Kumpulan semua node kritis sebagai Set untuk pencarian O(1)
+  const critSet = new Set(sorted.filter(id => idMap[id].critical));
+
+  // Identifikasi "terminal kritis": node kritis yang tidak punya successor kritis.
+  // Ini adalah titik akhir dari setiap jalur kritis.
+  const hasCritSuc = new Set();
+  acts.forEach(a => {
+    const preds = a.pred ? a.pred.split(',').map(p => p.trim()).filter(p => p) : [];
+    if (critSet.has(a.id)) {
+      preds.filter(p => critSet.has(p)).forEach(p => hasCritSuc.add(p));
+    }
+  });
+  const terminalCrits = [...critSet].filter(id => !hasCritSuc.has(id));
+
+  // DFS rekursif mundur dari terminal kritis
+  const allPaths = [];
+
+  /**
+   * Rekursi DFS mundur: telusuri predecessor kritis dari node `id`.
+   * @param {string} id   - Node saat ini
+   * @param {string[]} path - Akumulasi jalur (dalam urutan terbalik, belum di-reverse)
+   */
+  function dfs(id, path) {
+    // Ambil hanya predecessor yang juga merupakan node kritis
+    const critPreds = predMap[id].filter(p => critSet.has(p));
+
+    if (critPreds.length === 0) {
+      // Tidak ada predecessor kritis lagi → ini adalah root kritis → jalur lengkap
+      // Balikkan urutan agar menjadi awal→akhir lalu simpan
+      allPaths.push([id, ...path].reverse());
+      return;
+    }
+
+    // Lanjutkan DFS ke setiap predecessor kritis
+    critPreds.forEach(p => dfs(p, [id, ...path]));
+  }
+
+  // Mulai DFS dari setiap terminal kritis
+  terminalCrits.forEach(t => dfs(t, []));
+
+  // De-duplikasi: hapus jalur identik yang mungkin muncul dua kali
+  const unique = [];
+  const seen = new Set();
+  allPaths.forEach(p => {
+    const key = p.join(',');
+    if (!seen.has(key)) { seen.add(key); unique.push(p); }
+  });
+
+  // Fallback: jika DFS tidak menemukan jalur (edge case),
+  // kembalikan semua node kritis sebagai satu jalur flat
+  return unique.length > 0 ? unique : [[...critSet]];
+}
+
+/* =====================================================================
+ * 8. RENDER STEPS — Tab ② Langkah Perhitungan
+ *    Menampilkan proses kalkulasi CPM langkah demi langkah:
+ *    Langkah 1: Tabel kegiatan & predecessor
+ *    Langkah 2: Forward Pass (ES & EF)
+ *    Langkah 3: Backward Pass (LS & LF)
+ *    Langkah 4: Perhitungan Slack & identifikasi kritis
+ * ===================================================================== */
+
+/**
+ * Menghasilkan HTML untuk Tab ② dan menyuntikkannya ke DOM.
+ * Membaca data dari cpmResult yang sudah diisi oleh calculate().
+ */
+function renderSteps() {
+  const { idMap, sorted, projectDur, acts } = cpmResult;
+
+  let html = `
+  <!-- LANGKAH 1: Daftar Kegiatan -->
+  <div class="card">
+    <div class="card-header"><span>📐</span><h2>Langkah 1 — Identifikasi Kegiatan &amp; Hubungan Predecessor</h2></div>
+    <div class="card-body">
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:12px;">Berikut adalah daftar kegiatan kepanitiaan acara formal beserta hubungan ketergantungannya.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>ID</th><th>Nama Kegiatan</th><th>Durasi (Hari)</th><th>Predecessor</th></tr></thead>
+        <tbody>
+          ${sorted.map(id => {
+            const a = idMap[id];
+            return `<tr><td><strong>${id}</strong></td><td class="left">${a.name}</td><td>${a.dur}</td><td>${a.pred || '—'}</td></tr>`;
+          }).join('')}
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <!-- LANGKAH 2: Forward Pass -->
+  <div class="card">
+    <div class="card-header"><span>➡️</span><h2>Langkah 2 — Forward Pass (Hitungan Maju)</h2><span class="badge">ES &amp; EF</span></div>
+    <div class="card-body">
+      <div class="info-box blue" style="margin-bottom:14px;">
+        <span class="info-icon">📌</span>
+        <div>
+          <strong>Rumus:</strong><br>
+          ES = MAX(EF semua predecessor) &nbsp;|&nbsp; Jika tidak ada predecessor, ES = 0<br>
+          EF = ES + Durasi
+        </div>
+      </div>
+      <div class="table-wrap"><table>
+        <thead>
+          <tr><th>ID</th><th>Nama Kegiatan</th><th>Dur</th><th>Predecessor</th>
+          <th>Dasar ES</th>
+          <th style="background:#1D4ED8">ES</th>
+          <th style="background:#1D4ED8">EF</th>
+          <th>Keterangan</th></tr>
+        </thead>
+        <tbody>
+          ${sorted.map(id => {
+            const a = idMap[id];
+            const preds = a.pred ? a.pred.split(',').map(p => p.trim()).filter(p => p) : [];
+            // Teks penjelasan dasar pengambilan ES
+            const basis = preds.length === 0
+              ? 'Tidak ada predecessor → ES=0'
+              : 'MAX(EF: ' + preds.map(p => `${p}=${idMap[p].EF}`).join(', ') + ')';
+            return `<tr>
+              <td><strong>${id}</strong></td>
+              <td class="left">${a.name}</td>
+              <td>${a.dur}</td>
+              <td>${a.pred || '—'}</td>
+              <td class="left" style="font-size:.78rem;color:var(--muted)">${basis}</td>
+              <td style="background:#EEF6FF;font-weight:700">${a.ES}</td>
+              <td style="background:#EEF6FF;font-weight:700">${a.EF}</td>
+              <td class="left" style="font-size:.78rem">ES=${a.ES} + Dur=${a.dur} → EF=${a.EF}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table></div>
+      <div class="info-box green" style="margin-top:12px;">
+        <span class="info-icon">✅</span>
+        <strong>Total Durasi Proyek = ${projectDur} Hari</strong> (EF terbesar dari semua kegiatan)
+      </div>
+    </div>
+  </div>
+
+  <!-- LANGKAH 3: Backward Pass -->
+  <div class="card">
+    <div class="card-header"><span>⬅️</span><h2>Langkah 3 — Backward Pass (Hitungan Mundur)</h2><span class="badge">LS &amp; LF</span></div>
+    <div class="card-body">
+      <div class="info-box blue" style="margin-bottom:14px;">
+        <span class="info-icon">📌</span>
+        <div>
+          <strong>Rumus:</strong><br>
+          LF = MIN(LS semua successor) &nbsp;|&nbsp; Kegiatan terminal: LF = Total Durasi Proyek (${projectDur})<br>
+          LS = LF − Durasi
+        </div>
+      </div>
+      <div class="table-wrap"><table>
+        <thead>
+          <tr><th>ID</th><th>Nama Kegiatan</th><th>Dur</th><th>Dasar LF</th>
+          <th style="background:#92400E;color:#FFF">LF</th>
+          <th style="background:#92400E;color:#FFF">LS</th>
+          <th>Keterangan</th></tr>
+        </thead>
+        <tbody>
+          ${[...sorted].reverse().map(id => {
+            const a = idMap[id];
+            // Cari semua successor kegiatan ini
+            const succs = acts.filter(s => {
+              const ps = s.pred ? s.pred.split(',').map(p => p.trim()).filter(p => p) : [];
+              return ps.includes(id);
+            });
+            // Teks penjelasan dasar pengambilan LF
+            const basis = succs.length === 0
+              ? `Terminal → LF=${projectDur}`
+              : 'MIN(LS: ' + succs.map(s => `${s.id}=${idMap[s.id].LS}`).join(', ') + ')';
+            return `<tr>
+              <td><strong>${id}</strong></td>
+              <td class="left">${a.name}</td>
+              <td>${a.dur}</td>
+              <td class="left" style="font-size:.78rem;color:var(--muted)">${basis}</td>
+              <td style="background:#FFF3E8;font-weight:700">${a.LF}</td>
+              <td style="background:#FFF3E8;font-weight:700">${a.LS}</td>
+              <td class="left" style="font-size:.78rem">LF=${a.LF} − Dur=${a.dur} → LS=${a.LS}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <!-- LANGKAH 4: Slack & Jalur Kritis -->
+  <div class="card">
+    <div class="card-header"><span>⏱️</span><h2>Langkah 4 — Perhitungan Slack/Float</h2><span class="badge">Identifikasi Kritis</span></div>
+    <div class="card-body">
+      <div class="info-box gold" style="margin-bottom:14px;">
+        <span class="info-icon">📌</span>
+        <div>
+          <strong>Rumus Slack:</strong> Slack = LS − ES &nbsp;(atau ekuivalen: LF − EF)<br>
+          <strong>Kegiatan Kritis:</strong> Slack = 0 → tidak boleh terlambat sama sekali.
+        </div>
+      </div>
+      <div class="table-wrap"><table>
+        <thead>
+          <tr><th>ID</th><th>Nama Kegiatan</th><th>ES</th><th>EF</th><th>LS</th><th>LF</th><th>Slack</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          ${sorted.map(id => {
+            const a = idMap[id];
+            const cr = a.critical;
+            return `<tr class="${cr ? 'critical-row' : ''}">
+              <td><strong>${id}</strong></td>
+              <td class="left">${a.name}</td>
+              <td>${a.ES}</td><td>${a.EF}</td><td>${a.LS}</td><td>${a.LF}</td>
+              <td class="${a.slack === 0 ? 'slack-zero' : 'slack-pos'}">${a.slack}</td>
+              <td>${cr
+                ? '<span class="critical-badge">⚠ KRITIS</span>'
+                : '<span style="color:var(--success);font-size:.78rem">✓ Bebas</span>'}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table></div>
+    </div>
+  </div>`;
+
+  document.getElementById('steps-content').innerHTML = html;
+}
+
+/* =====================================================================
+ * 9. RENDER RESULT — Tab ③ Tabel Rekap CPM Lengkap
+ *    Menampilkan ringkasan semua kegiatan dengan seluruh nilai CPM
+ *    (ES, EF, LS, LF, Slack, Status) dalam satu tabel terpadu.
+ * ===================================================================== */
+
+/**
+ * Menghasilkan HTML untuk Tab ③ dan menyuntikkannya ke DOM.
+ * Menampilkan semua jalur kritis (termasuk multiple critical paths)
+ * di bagian atas, diikuti tabel rekap lengkap.
+ */
+function renderResult() {
+  const { idMap, sorted, projectDur } = cpmResult;
+  const criticals = sorted.filter(id => idMap[id].critical);
+
+  // Dapatkan semua jalur kritis (bisa lebih dari satu)
+  const allCritPaths = findAllCriticalPaths();
+
+  // Buat label HTML untuk setiap jalur kritis
+  const pathsLabel = allCritPaths.map((p, i) =>
+    allCritPaths.length > 1
+      ? `<span style="display:inline-block;margin-right:12px;"><strong>Jalur ${i+1}:</strong> ${p.join(' → ')}</span>`
+      : p.join(' → ')
+  ).join(allCritPaths.length > 1 ? '<br>' : '');
+
+  let html = `
+  <!-- Banner total durasi dan jalur kritis -->
+  <div class="info-box gold" style="margin-bottom:16px;">
+    <span class="info-icon">🏁</span>
+    <div>
+      <strong>Total Durasi Proyek: ${projectDur} Hari</strong><br>
+      <span style="font-size:.85rem;">
+        ${allCritPaths.length > 1
+          ? '<strong>' + allCritPaths.length + ' Jalur Kritis Teridentifikasi:</strong><br>' + pathsLabel
+          : '<strong>Jalur Kritis:</strong> ' + pathsLabel}
+      </span>
+    </div>
+  </div>
+
+  <!-- Tabel rekap lengkap semua kegiatan -->
+  <div class="card">
+    <div class="card-header">
+      <span>📊</span>
+      <h2>Tabel Rekap CPM Lengkap</h2>
+      <span class="badge">${sorted.length} Kegiatan</span>
+    </div>
+    <div class="card-body">
+      <div class="table-wrap"><table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Nama Kegiatan</th><th>Dur</th>
+            <th style="background:#1D4ED8">ES</th><th style="background:#1D4ED8">EF</th>
+            <th style="background:#92400E">LS</th><th style="background:#92400E">LF</th>
+            <th>Slack</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${sorted.map(id => {
+            const a = idMap[id];
+            return `<tr class="${a.critical ? 'critical-row' : ''}">
+              <td><strong>${id}</strong></td>
+              <td class="left">${a.name}</td>
+              <td>${a.dur}</td>
+              <td style="background:#EEF6FF">${a.ES}</td>
+              <td style="background:#EEF6FF">${a.EF}</td>
+              <td style="background:#FFF3E8">${a.LS}</td>
+              <td style="background:#FFF3E8">${a.LF}</td>
+              <td class="${a.slack === 0 ? 'slack-zero' : 'slack-pos'}">${a.slack}</td>
+              <td>${a.critical
+                ? '<span class="critical-badge">⚠ KRITIS</span>'
+                : '<span style="color:var(--success);font-size:.78rem">✓ Float=' + a.slack + ' hari</span>'}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table></div>
+
+      <!-- Legenda warna tabel -->
+      <div style="margin-top:16px;">
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div><span>Kegiatan Kritis (Slack=0)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#1D4ED8"></div><span>ES / EF (Forward Pass)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#92400E"></div><span>LS / LF (Backward Pass)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--success)"></div><span>Kegiatan Bebas (Slack&gt;0)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+  document.getElementById('result-content').innerHTML = html;
+}
+
+/* =====================================================================
+ * 10. RENDER NETWORK — Tab ④ Diagram Jaringan SVG Otomatis
+ *     Menggambar diagram jaringan kerja CPM sebagai SVG inline.
+ *     Setiap node menampilkan: ES | ID | EF (atas) dan LS | Float | LF (bawah).
+ *     Node kritis ditandai dengan border emas dan ikon bintang (★).
+ *     Panah jalur kritis: solid emas; panah biasa: putus-putus biru.
+ * ===================================================================== */
+
+/**
+ * Menghasilkan SVG diagram jaringan CPM dan menyuntikkannya ke DOM.
+ *
+ * Teknik rendering:
+ *  - Level assignment: setiap node ditempatkan di kolom berdasarkan
+ *    panjang jalur terpanjang dari start (longest path level)
+ *  - Vertical centering: node dalam satu kolom diatur agar terpusat
+ *  - Edge routing: panah pendek (span=1) menggunakan bezier sederhana;
+ *    panah panjang (span>1) dialihkan melewati atas/bawah node tengah
+ *    untuk menghindari tumpang tindih
+ *  - Two-pass drawing: panah biasa digambar duluan, lalu panah kritis
+ *    di atasnya agar selalu terlihat di depan
+ */
+function renderNetwork() {
+  const { idMap, sorted, projectDur } = cpmResult;
+  const acts = cpmResult.acts;
+
+  /* ── 1. LEVEL ASSIGNMENT ──
+   * Level setiap node = max(level predecessor) + 1
+   * Node tanpa predecessor berada di level 0 (kolom pertama). */
+  const level = {};
+  sorted.forEach(id => {
+    const preds = idMap[id].pred
+      ? idMap[id].pred.split(',').map(p => p.trim()).filter(p => p)
+      : [];
+    level[id] = preds.length === 0 ? 0 : Math.max(...preds.map(p => level[p])) + 1;
+  });
+
+  // Kelompokkan node per level (kolom)
+  const cols = {};
+  sorted.forEach(id => {
+    const lv = level[id];
+    if (!cols[lv]) cols[lv] = [];
+    cols[lv].push(id);
+  });
+  const colKeys = Object.keys(cols).map(Number).sort((a, b) => a - b);
+  const maxNodesInCol = Math.max(...Object.values(cols).map(c => c.length));
+
+  /* ── 2. KONSTANTA DIMENSI NODE & LAYOUT ── */
+  const NW   = 178; // lebar node (px)
+  const NH   = 118; // tinggi node (px)
+  const TH   = 30;  // tinggi bar atas (ES | ID | EF)
+  const BH   = 30;  // tinggi bar bawah (LS | Float | LF)
+  const CGAP = 240; // jarak antar kolom (tepi kiri ke tepi kiri)
+  const RGAP = 185; // jarak antar baris — diperbesar agar lingkaran WKC/WKL tidak tumpang tindih
+  const PX   = 70;  // padding kiri-kanan SVG
+  const PY   = 75;  // padding atas diperbesar untuk ruang lingkaran notasi di atas node
+  const CR   = 20;  // radius lingkaran notasi WKC/WKL (format materi dosen)
+
+  /* ── 2b. NOMOR URUT NODE (label di dalam lingkaran, format materi Bab VII) ──
+   * Nomor 1..n diberikan berdasarkan urutan topologis. */
+  const nodeNum = {};
+  sorted.forEach((id, i) => { nodeNum[id] = i + 1; });
+
+  /* ── 3. KALKULASI POSISI NODE (Vertical Centering) ── */
+  const totalSvgH = maxNodesInCol * RGAP + (NH - RGAP) + PY * 2;
+
+  const nodePos = {};
+  colKeys.forEach(col => {
+    const nodes = cols[col];
+    const colTotalH = nodes.length * RGAP - (RGAP - NH);
+    const startY = (totalSvgH - colTotalH) / 2; // pusat vertikal
+    nodes.forEach((id, i) => {
+      nodePos[id] = {
+        x: PX + col * CGAP,
+        y: startY + i * RGAP
+      };
+    });
+  });
+
+  const svgW = Math.max(...Object.values(nodePos).map(p => p.x)) + NW + PX;
+  const svgH = totalSvgH;
+
+  /* ── 4. HELPER: Bagi nama panjang menjadi maksimal 2 baris ── */
+  /**
+   * Memecah nama kegiatan menjadi dua baris di titik spasi terdekat tengah.
+   * @param {string} name  - Nama kegiatan
+   * @param {number} maxW  - Batas karakter per baris
+   * @returns {[string, string]} Tuple [baris1, baris2]; baris2 kosong jika cukup pendek
+   */
+  function wrapName(name, maxW) {
+    if (name.length <= maxW) return [name, ''];
+    const mid = Math.floor(name.length / 2);
+    let at = -1;
+    for (let d = 0; d <= mid; d++) {
+      if (name[mid - d] === ' ') { at = mid - d; break; }
+      if (name[mid + d] === ' ') { at = mid + d; break; }
+    }
+    if (at > 0) return [name.slice(0, at).trim(), name.slice(at).trim()];
+    return [name.slice(0, maxW), name.slice(maxW)];
+  }
+
+  /* ── 5. HELPER: Routing Panah (Edge) antar Node ──
+   * Span = 1: bezier sederhana kiri ke kanan
+   * Span > 1: bypass melalui atas/bawah untuk menghindari tabrakan node tengah */
+  /**
+   * Menghasilkan path SVG (format cubic bezier) untuk panah dari srcId ke dstId.
+   * @param {string} srcId - ID node sumber
+   * @param {string} dstId - ID node tujuan
+   * @returns {string} Atribut 'd' untuk elemen <path> SVG
+   */
+  function routeEdge(srcId, dstId) {
+    const s = nodePos[srcId], d = nodePos[dstId];
+    const sMid = s.y + NH / 2; // titik tengah vertikal node sumber
+    const dMid = d.y + NH / 2; // titik tengah vertikal node tujuan
+    const x1 = s.x + NW;       // sisi kanan node sumber
+    const x2 = d.x;             // sisi kiri node tujuan
+    const dx = x2 - x1;
+    const span = level[dstId] - level[srcId];
+
+    if (span <= 1) {
+      // Bezier sederhana untuk panah antar kolom bersebelahan
+      const cx1 = x1 + dx * 0.4, cx2 = x2 - dx * 0.4;
+      return `M${x1},${sMid} C${cx1},${sMid} ${cx2},${dMid} ${x2},${dMid}`;
+    }
+
+    // Panah panjang: bypass melewati atas atau bawah semua node di antaranya
+    const routeAbove = dMid < sMid; // bypass atas jika tujuan lebih tinggi
+    const bypass = routeAbove
+      ? Math.min(s.y, d.y) - 35          // jalur atas
+      : Math.max(s.y + NH, d.y + NH) + 35; // jalur bawah
+    const exitX = x1 + 28;
+    const entX  = x2 - 28;
+    return `M${x1},${sMid} C${exitX},${sMid} ${exitX},${bypass} ${x1+dx/2},${bypass} C${entX},${bypass} ${entX},${dMid} ${x2},${dMid}`;
+  }
+
+  /* ── 6. BANGUN SVG ── */
+  let svg = `<svg id="network-svg" viewBox="0 0 ${svgW} ${svgH}" width="${svgW}" height="${svgH}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Marker panah untuk jalur NON-kritis (abu-abu biru) -->
+    <marker id="arr-n" markerWidth="9" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,9 3.5,0 7" fill="#4A5A88"/>
+    </marker>
+    <!-- Marker panah untuk jalur KRITIS (emas) -->
+    <marker id="arr-c" markerWidth="11" markerHeight="9" refX="11" refY="4.5" orient="auto">
+      <polygon points="0 0,11 4.5,0 9" fill="#E8A820"/>
+    </marker>
+    <!-- Filter cahaya (glow) untuk node kritis -->
+    <filter id="glow-crit" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Filter bayangan halus untuk node non-kritis -->
+    <filter id="shadow-n" x="-10%" y="-10%" width="125%" height="135%">
+      <feDropShadow dx="1" dy="4" stdDeviation="5" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+    <!-- Pola titik-titik latar belakang -->
+    <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#FFFFFF08"/>
+    </pattern>
+  </defs>
+  <!-- Latar belakang gelap dengan pola dots -->
+  <rect width="${svgW}" height="${svgH}" fill="#0B1120"/>
+  <rect width="${svgW}" height="${svgH}" fill="url(#dots)"/>`;
+
+  /* ── 6a. GAMBAR PANAH (dua pass: non-kritis dulu, kritis di atas) ──
+   * Two-pass drawing memastikan panah kritis selalu terlihat di depan
+   * dan tidak tertutup oleh panah non-kritis. */
+  [false, true].forEach(drawCrit => {
+    acts.forEach(a => {
+      const preds = a.pred ? a.pred.split(',').map(p => p.trim()).filter(p => p) : [];
+      preds.forEach(p => {
+        if (!nodePos[p] || !nodePos[a.id]) return;
+        // Panah dianggap kritis hanya jika KEDUA ujungnya adalah node kritis
+        const isCrit = idMap[p].critical && idMap[a.id].critical;
+        if (isCrit !== drawCrit) return;
+
+        const path = routeEdge(p, a.id);
+
+        if (isCrit) {
+          // Panah kritis: glow emas + garis tebal emas
+          svg += `<path d="${path}" fill="none" stroke="#E8A82044" stroke-width="9"/>`;
+          svg += `<path d="${path}" fill="none" stroke="#E8A820" stroke-width="3.5" marker-end="url(#arr-c)"/>`;
+        } else {
+          // Panah biasa: putus-putus biru transparan
+          svg += `<path d="${path}" fill="none" stroke="#3A4A6A" stroke-width="1.8"
+            stroke-dasharray="7,4" opacity="0.75" marker-end="url(#arr-n)"/>`;
+        }
+      });
+    });
+  });
+
+  /* ── 6b. GAMBAR NODE ── */
+  sorted.forEach(id => {
+    const a = idMap[id];
+    const { x, y } = nodePos[id];
+    const C = a.critical; // true = node kritis
+
+    /* Palet warna: node kritis menggunakan tema emas gelap,
+     * node non-kritis menggunakan tema biru gelap. */
+    const bodyBg     = C ? '#1E1830' : '#152035';
+    const bodyBorder = C ? '#E8A820' : '#2E4070';
+    const borderW    = C ? 2.8      : 1.5;
+    const topBg      = C ? '#E8A820' : '#1A3060';
+    const topFg      = C ? '#120E24' : '#B8CCF0';
+    const idFg       = C ? '#120E24' : '#F0D070';
+    const midFg      = C ? '#FFF0C0' : '#A0B8D8';
+    const nameFg     = C ? '#FFE8A0' : '#7898C0';
+    const botBg      = C ? '#6A4810' : '#0C1828';
+    const lslfFg     = C ? '#FFE090' : '#80A0C0';
+    const slackFg    = a.slack === 0 ? '#F0A020' : '#40C878';
+    const filt       = C ? 'filter="url(#glow-crit)"' : 'filter="url(#shadow-n)"';
+
+    const [n1, n2] = wrapName(a.name, 17);
+
+    // Body utama node (rounded rectangle)
+    svg += `<rect x="${x}" y="${y}" width="${NW}" height="${NH}" rx="11" ry="11"
+      fill="${bodyBg}" stroke="${bodyBorder}" stroke-width="${borderW}" ${filt}/>`;
+
+    // Bar atas (hanya sudut atas yang rounded)
+    svg += `<path d="M${x+11},${y} H${x+NW-11} Q${x+NW},${y} ${x+NW},${y+11}
+      V${y+TH} H${x} V${y+11} Q${x},${y} ${x+11},${y} Z" fill="${topBg}"/>`;
+
+    // Garis pembagi vertikal di bar atas (ES | ID | EF)
+    svg += `<line x1="${x+NW/3}" y1="${y+5}" x2="${x+NW/3}" y2="${y+TH-5}" stroke="${C?'#9A6C0888':'#0A1A3888'}" stroke-width="1.2"/>`;
+    svg += `<line x1="${x+NW*2/3}" y1="${y+5}" x2="${x+NW*2/3}" y2="${y+TH-5}" stroke="${C?'#9A6C0888':'#0A1A3888'}" stroke-width="1.2"/>`;
+
+    // Nilai di bar atas: ES (kiri) | ID (tengah) | EF (kanan)
+    svg += `<text x="${x+NW/6}"   y="${y+20}" font-size="14" fill="${topFg}" font-family="'Courier New',monospace" font-weight="700" text-anchor="middle">${a.ES}</text>`;
+    svg += `<text x="${x+NW/2}"   y="${y+21}" font-size="16" fill="${idFg}"  font-family="'Courier New',monospace" font-weight="900" text-anchor="middle">${id}</text>`;
+    svg += `<text x="${x+NW*5/6}" y="${y+20}" font-size="14" fill="${topFg}" font-family="'Courier New',monospace" font-weight="700" text-anchor="middle">${a.EF}</text>`;
+
+    // Label mikro ES / EF di bawah bar atas
+    svg += `<text x="${x+NW/6}"   y="${y+TH+10}" font-size="8.5" fill="${C?'#E8A82060':'#FFFFFF25'}" font-family="sans-serif" text-anchor="middle" font-style="italic">ES</text>`;
+    svg += `<text x="${x+NW*5/6}" y="${y+TH+10}" font-size="8.5" fill="${C?'#E8A82060':'#FFFFFF25'}" font-family="sans-serif" text-anchor="middle" font-style="italic">EF</text>`;
+
+    // Bagian tengah: durasi dan nama kegiatan
+    const midY = y + TH + (NH - TH - BH) / 2 - 10;
+    svg += `<text x="${x+NW/2}" y="${midY+4}" font-size="13" fill="${midFg}" font-family="'Courier New',monospace" font-weight="700" text-anchor="middle">D = ${a.dur} hari</text>`;
+
+    if (n2) {
+      // Nama dua baris
+      svg += `<text x="${x+NW/2}" y="${midY+20}" font-size="10.5" fill="${nameFg}" font-family="sans-serif" text-anchor="middle">${n1}</text>`;
+      svg += `<text x="${x+NW/2}" y="${midY+33}" font-size="10.5" fill="${nameFg}" font-family="sans-serif" text-anchor="middle">${n2}</text>`;
+    } else {
+      // Nama satu baris
+      svg += `<text x="${x+NW/2}" y="${midY+26}" font-size="10.5" fill="${nameFg}" font-family="sans-serif" text-anchor="middle">${n1}</text>`;
+    }
+
+    // Garis pemisah sebelum bar bawah
+    svg += `<line x1="${x+10}" y1="${y+NH-BH}" x2="${x+NW-10}" y2="${y+NH-BH}" stroke="${C?'#E8A82055':'#1A3060'}" stroke-width="1"/>`;
+
+    // Bar bawah (hanya sudut bawah yang rounded)
+    svg += `<path d="M${x},${y+NH-BH} H${x+NW} V${y+NH-11} Q${x+NW},${y+NH} ${x+NW-11},${y+NH}
+      H${x+11} Q${x},${y+NH} ${x},${y+NH-11} Z" fill="${botBg}"/>`;
+
+    // Garis pembagi vertikal di bar bawah (LS | Float | LF)
+    svg += `<line x1="${x+NW/3}" y1="${y+NH-BH+5}" x2="${x+NW/3}" y2="${y+NH-5}" stroke="${C?'#9A6C0888':'#0A1A3888'}" stroke-width="1.2"/>`;
+    svg += `<line x1="${x+NW*2/3}" y1="${y+NH-BH+5}" x2="${x+NW*2/3}" y2="${y+NH-5}" stroke="${C?'#9A6C0888':'#0A1A3888'}" stroke-width="1.2"/>`;
+
+    // Label mikro LS / Float / LF di bar bawah
+    svg += `<text x="${x+NW/6}"   y="${y+NH-BH+11}" font-size="8.5" fill="${C?'#E8A82060':'#FFFFFF22'}" font-family="sans-serif" text-anchor="middle" font-style="italic">LS</text>`;
+    svg += `<text x="${x+NW/2}"   y="${y+NH-BH+11}" font-size="8.5" fill="${slackFg}77" font-family="sans-serif" text-anchor="middle" font-style="italic">Float</text>`;
+    svg += `<text x="${x+NW*5/6}" y="${y+NH-BH+11}" font-size="8.5" fill="${C?'#E8A82060':'#FFFFFF22'}" font-family="sans-serif" text-anchor="middle" font-style="italic">LF</text>`;
+
+    // Nilai di bar bawah: LS (kiri) | Float/Slack (tengah) | LF (kanan)
+    svg += `<text x="${x+NW/6}"   y="${y+NH-7}" font-size="14" fill="${lslfFg}"  font-family="'Courier New',monospace" font-weight="700" text-anchor="middle">${a.LS}</text>`;
+    svg += `<text x="${x+NW/2}"   y="${y+NH-7}" font-size="14" fill="${slackFg}" font-family="'Courier New',monospace" font-weight="800" text-anchor="middle">${a.slack}</text>`;
+    svg += `<text x="${x+NW*5/6}" y="${y+NH-7}" font-size="14" fill="${lslfFg}"  font-family="'Courier New',monospace" font-weight="700" text-anchor="middle">${a.LF}</text>`;
+
+    // Badge bintang ★ di pojok kanan atas untuk node kritis
+    if (C) {
+      svg += `<circle cx="${x+NW-12}" cy="${y+12}" r="10" fill="#E8A820"/>`;
+      svg += `<text x="${x+NW-12}" y="${y+17}" font-size="11" fill="#120E24" text-anchor="middle" font-weight="900">★</text>`;
+    }
+
+    /* ── LINGKARAN NOTASI WKC / WKL (format materi dosen Bab VII) ──
+     * Referensi: materi hal.10 — lingkaran dibagi dua:
+     *   atas  = Nomor Kejadian
+     *   kiri bawah  = WKC (Waktu Kejadian Tercepat = ES)
+     *   kanan bawah = WKL (Waktu Kejadian Terlambat = LS)
+     * Lingkaran diletakkan tepat di atas-tengah node, menyentuh tepi atas node. */
+    const cx  = x + NW / 2;          // pusat horizontal = tengah node
+    const cy  = y - CR;               // pusat vertikal = di atas node sejauh radius
+    const cr  = CR;                   // radius lingkaran
+    const circleBorder = C ? '#E8A820' : '#4A6A9A';
+    const circleBg     = C ? '#2A1A08' : '#0D1A30';
+    const circleNumFg  = C ? '#FFE090' : '#F0D070';
+    const wkcFg        = C ? '#60FFB0' : '#50C890'; // WKC = ES → hijau terang
+    const wklFg        = C ? '#FFB060' : '#F09040'; // WKL = LS → oranye hangat
+
+    // Lingkaran utama (border tebal)
+    svg += `<circle cx="${cx}" cy="${cy}" r="${cr}" fill="${circleBg}" stroke="${circleBorder}" stroke-width="${C?2.5:1.8}"/>`;
+
+    // Garis pembagi horizontal di dalam lingkaran (Nomor di atas | WKC-WKL di bawah)
+    svg += `<line x1="${cx-cr+4}" y1="${cy}" x2="${cx+cr-4}" y2="${cy}" stroke="${circleBorder}" stroke-width="1" opacity="0.6"/>`;
+    // Garis pembagi vertikal di bagian bawah (WKC kiri | WKL kanan)
+    svg += `<line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy+cr-3}" stroke="${circleBorder}" stroke-width="1" opacity="0.6"/>`;
+
+    // Nomor urut kejadian di bagian ATAS lingkaran
+    svg += `<text x="${cx}" y="${cy-2}" font-size="12" fill="${circleNumFg}" font-family="'Courier New',monospace" font-weight="900" text-anchor="middle">${nodeNum[id]}</text>`;
+
+    // WKC (= ES) di bagian bawah KIRI
+    svg += `<text x="${cx-cr/2+1}" y="${cy+cr-5}" font-size="9" fill="${wkcFg}" font-family="'Courier New',monospace" font-weight="700" text-anchor="middle">${a.ES}</text>`;
+
+    // WKL (= LS) di bagian bawah KANAN
+    svg += `<text x="${cx+cr/2-1}" y="${cy+cr-5}" font-size="9" fill="${wklFg}" font-family="'Courier New',monospace" font-weight="700" text-anchor="middle">${a.LS}</text>`;
+
+    // Label "WKC" dan "WKL" ukuran mikro (opsional hover-info feel)
+    svg += `<text x="${cx-cr/2+1}" y="${cy+8}" font-size="6.5" fill="${wkcFg}99" font-family="sans-serif" text-anchor="middle" font-style="italic">WKC</text>`;
+    svg += `<text x="${cx+cr/2-1}" y="${cy+8}" font-size="6.5" fill="${wklFg}99" font-family="sans-serif" text-anchor="middle" font-style="italic">WKL</text>`;
+
+    // Garis penghubung tipis dari lingkaran ke badan node
+    svg += `<line x1="${cx}" y1="${cy+cr}" x2="${cx}" y2="${y}" stroke="${circleBorder}" stroke-width="1" stroke-dasharray="3,2" opacity="0.4"/>`;
+
+  }); // ── akhir sorted.forEach ──
+
+  svg += '</svg>';
+
+  /* ── 7. LEGENDA + CONTAINER ── */
+  const html = `
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header">
+      <span>🕸️</span><h2>Diagram Jaringan CPM</h2><span class="badge">Auto-Generated</span>
+    </div>
+    <div class="card-body" style="padding:16px;">
+      <!-- Legenda simbol diagram -->
+      <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <svg width="38" height="22" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="36" height="20" rx="5" fill="#1E1830" stroke="#E8A820" stroke-width="2.5"/>
+            <circle cx="30" cy="8" r="7" fill="#E8A820"/>
+            <text x="30" y="12" font-size="8" fill="#120E24" text-anchor="middle" font-weight="900">★</text>
+          </svg>
+          <span style="font-size:.83rem;font-weight:700;color:var(--ink);">Kegiatan Kritis (Float = 0)</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <svg width="38" height="22" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="36" height="20" rx="5" fill="#152035" stroke="#2E4070" stroke-width="1.5"/>
+          </svg>
+          <span style="font-size:.83rem;color:var(--muted);">Kegiatan Bebas (Float &gt; 0)</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <svg width="44" height="16" xmlns="http://www.w3.org/2000/svg">
+            <defs><marker id="lg-arr" markerWidth="8" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,8 3.5,0 7" fill="#E8A820"/></marker></defs>
+            <line x1="2" y1="8" x2="36" y2="8" stroke="#E8A820" stroke-width="3" marker-end="url(#lg-arr)"/>
+          </svg>
+          <span style="font-size:.83rem;color:var(--muted);">Panah Jalur Kritis</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <svg width="44" height="16" xmlns="http://www.w3.org/2000/svg">
+            <defs><marker id="lg-arr2" markerWidth="8" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,8 3.5,0 7" fill="#4A5A88"/></marker></defs>
+            <line x1="2" y1="8" x2="36" y2="8" stroke="#4A5A88" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#lg-arr2)"/>
+          </svg>
+          <span style="font-size:.83rem;color:var(--muted);">Panah Kegiatan Bebas</span>
+        </div>
+        <!-- Anatomi node: penjelasan letak nilai di dalam node -->
+        <div style="font-size:.76rem;color:var(--muted);padding:7px 12px;background:var(--cream);border-radius:6px;border:1px solid var(--border);line-height:1.85;">
+          <strong style="color:var(--ink);">Anatomi Node:</strong><br>
+          <span style="color:#F0D070;">⭕ Lingkaran atas:</span> No. Kejadian &nbsp;|&nbsp; <span style="color:#50C890;">Kiri</span> = WKC (ES) &nbsp;|&nbsp; <span style="color:#F09040;">Kanan</span> = WKL (LS)<br>
+          <span style="color:#6090D0;">▬ Bar atas:</span> ES · ID · EF<br>
+          <span style="color:#B08040;">▬ Bar bawah:</span> LS · Float · LF
+        </div>
+      </div>
+      <div id="network-wrap">${svg}</div>
+    </div>
+  </div>`;
+
+  document.getElementById('network-content').innerHTML = html;
+}
+
+/* =====================================================================
+ * 11. RENDER SUMMARY — Tab ⑤ Kesimpulan & Rekomendasi
+ *     Menampilkan ringkasan eksekutif hasil analisis CPM:
+ *     - Statistik proyek (durasi, jumlah jalur kritis, dll.)
+ *     - Daftar semua jalur kritis (dengan dukungan multiple paths)
+ *     - Kegiatan bebas beserta nilai slack-nya
+ *     - Tabel rekap status semua kegiatan
+ *     - Rekomendasi manajemen proyek berdasarkan hasil analisis
+ * ===================================================================== */
+
+/**
+ * Menghasilkan HTML untuk Tab ⑤ dan menyuntikkannya ke DOM.
+ * Menggabungkan data cpmResult dan hasil findAllCriticalPaths()
+ * untuk menyajikan kesimpulan yang lengkap dan actionable.
+ */
+function renderSummary() {
+  const { idMap, sorted, projectDur, acts } = cpmResult;
+  const criticals  = sorted.filter(id => idMap[id].critical);
+  const freePaths  = sorted.filter(id => !idMap[id].critical);
+
+  // Dapatkan semua jalur kritis (mendukung multiple critical paths)
+  const allCritPaths = findAllCriticalPaths();
+
+  // Buat HTML untuk setiap jalur kritis
+  // Jika lebih dari satu jalur, tampilkan badge berlabel "JALUR 1", "JALUR 2", dst.
+  const critPathsHTML = allCritPaths.map((p, i) =>
+    allCritPaths.length > 1
+      ? `<div style="margin-bottom:4px;">
+           <span style="background:#C9A84C;color:#1A1A2E;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:12px;margin-right:8px;">JALUR ${i+1}</span>
+           ${p.join(' → ')}
+         </div>`
+      : `<strong>${p.join(' → ')}</strong>`
+  ).join('');
+
+  const html = `
+  <!-- Kartu statistik ringkasan -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val">${projectDur}</div>
+      <div class="stat-lbl">Total Durasi (Hari)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">${allCritPaths.length}</div>
+      <div class="stat-lbl">Jumlah Jalur Kritis</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">${criticals.length}</div>
+      <div class="stat-lbl">Kegiatan Kritis</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">${freePaths.length}</div>
+      <div class="stat-lbl">Kegiatan Bebas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">${sorted.length}</div>
+      <div class="stat-lbl">Total Kegiatan</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span>🎯</span><h2>Kesimpulan Analisis CPM</h2></div>
+    <div class="card-body">
+
+      <!-- Total durasi proyek -->
+      <div class="info-box gold" style="margin-bottom:16px;">
+        <span class="info-icon">🏁</span>
+        <div>
+          <strong>Total Waktu Penyelesaian Proyek: ${projectDur} Hari Kerja</strong><br>
+          Ini merupakan waktu minimum yang dibutuhkan untuk menyelesaikan seluruh rangkaian
+          persiapan acara formal, dari penyewaan gedung hingga pelaksanaan hari-H.
+        </div>
+      </div>
+
+      <!-- Jalur kritis (mendukung tampilan multiple paths) -->
+      <div class="info-box red" style="margin-bottom:16px;">
+        <span class="info-icon">⚠️</span>
+        <div>
+          ${allCritPaths.length > 1
+            ? '<strong>' + allCritPaths.length + ' Jalur Kritis Teridentifikasi:</strong><br>' + critPathsHTML
+            : '<strong>Jalur Kritis:</strong><br>' + critPathsHTML}
+          <br><span style="font-size:.85rem;">
+            Kegiatan-kegiatan di atas memiliki Slack = 0, artinya
+            <strong>tidak boleh mengalami keterlambatan sama sekali</strong>.
+            Keterlambatan pada salah satu kegiatan kritis akan langsung menunda
+            tanggal penyelesaian proyek secara keseluruhan.
+          </span>
+        </div>
+      </div>
+
+      <!-- Kegiatan dengan slack / float -->
+      <div class="info-box green" style="margin-bottom:16px;">
+        <span class="info-icon">✅</span>
+        <div>
+          <strong>Kegiatan dengan Float/Slack:</strong>
+          ${freePaths.length > 0
+            ? freePaths.map(id => `${id} (slack=${idMap[id].slack} hari)`).join(', ')
+            : 'Tidak ada — semua kegiatan kritis.'}
+          <br>Kegiatan-kegiatan ini memiliki kelonggaran waktu sehingga bisa
+          ditunda tanpa mempengaruhi jadwal hari-H.
+        </div>
+      </div>
+
+      <!-- Tabel rekap status semua kegiatan -->
+      <h3 style="font-size:.9rem;margin-bottom:10px;color:var(--ink);">Rekap Kegiatan Kritis vs Bebas</h3>
+      <div class="table-wrap"><table>
+        <thead>
+          <tr><th>ID</th><th>Nama Kegiatan</th><th>Durasi</th>
+          <th>ES</th><th>EF</th><th>LS</th><th>LF</th><th>Slack</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          ${sorted.map(id => {
+            const a = idMap[id];
+            return `<tr class="${a.critical ? 'critical-row' : ''}">
+              <td><strong>${id}</strong></td>
+              <td class="left">${a.name}</td>
+              <td>${a.dur}</td>
+              <td>${a.ES}</td><td>${a.EF}</td><td>${a.LS}</td><td>${a.LF}</td>
+              <td class="${a.slack === 0 ? 'slack-zero' : 'slack-pos'}">${a.slack}</td>
+              <td>${a.critical
+                ? '<span class="critical-badge">⚠ KRITIS</span>'
+                : '<span style="color:var(--success);font-size:.78rem">✓ Bebas</span>'}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table></div>
+
+      <!-- Rekomendasi manajemen proyek berbasis hasil analisis CPM -->
+      <div style="margin-top:20px;padding:16px;background:var(--cream);border-radius:var(--radius);border:1px solid var(--border);">
+        <h3 style="font-size:.9rem;margin-bottom:8px;">📝 Rekomendasi Manajemen Proyek</h3>
+        <ul style="padding-left:18px;font-size:.85rem;color:var(--ink);display:flex;flex-direction:column;gap:6px;">
+          <li>Berikan prioritas tertinggi pada kegiatan kritis: <strong>${criticals.join(', ')}</strong>
+            ${allCritPaths.length > 1 ? ' (tersebar di ' + allCritPaths.length + ' jalur kritis)' : ''}.
+            Pastikan sumber daya (SDM, anggaran, peralatan) tersedia penuh sesuai jadwal.</li>
+          <li>Lakukan monitoring harian untuk kegiatan kritis agar tidak terjadi penundaan.
+            Gunakan status check-in setiap pagi hari kepanitiaan.</li>
+          <li>Kegiatan dengan slack dapat digeser jadwalnya jika terjadi kendala sumber daya,
+            namun jangan melebihi batas slack yang tersedia.</li>
+          <li>Buat contingency plan untuk setiap kegiatan kritis, termasuk rencana cadangan
+            venue, vendor dekorasi, dan katering.</li>
+          <li>Lakukan rapat koordinasi mingguan seluruh panitia dan pastikan setiap divisi
+            memahami ketergantungan antar kegiatan.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>`;
+
+  document.getElementById('summary-content').innerHTML = html;
+}
+
+/* =====================================================================
+ * 12. INIT — Inisialisasi Aplikasi
+ *     Dipanggil otomatis saat halaman pertama kali dimuat.
+ *     Mengisi tabel dengan data default agar pengguna langsung
+ *     dapat melihat contoh dan mencoba fitur kalkulasi.
+ * ===================================================================== */
+loadDefault();
+
+</script>
+</body>
+</html>
